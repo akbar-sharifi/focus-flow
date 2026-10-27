@@ -1,0 +1,13 @@
+{
+  "name": "focusflow-pomodoro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FocusFlow — Pomodoro tasks, tags, progress tracking. Completely free, no login, data stored locally in the browser.",
+  "type": "commonjs",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --test test/"
+  }
+}

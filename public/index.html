@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e4572e">
+<title>FocusFlow — Pomodoro that tracks your progress</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍅</text></svg>">
+</head>
+<body>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- APP (no login — everything is stored locally in this browser) -->
+<div id="view-app">
+  <header class="topbar">
+    <div class="brand"><span>🍅</span> FocusFlow</div>
+    <div class="top-actions">
+      <span class="badge pro">Free forever</span>
+      <button class="icon-btn" data-nav="settings" aria-label="Settings">⚙️</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- TODAY / TIMER -->
+    <section id="page-today" class="page">
+      <div class="stats-row" id="stats-row"></div>
+
+      <div class="timer-card">
+        <div class="mode-tabs" role="tablist">
+          <button class="mode active" data-mode="focus" role="tab" aria-selected="true">Focus</button>
+          <button class="mode" data-mode="short" role="tab" aria-selected="false">Short break</button>
+          <button class="mode" data-mode="long" role="tab" aria-selected="false">Long break</button>
+        </div>
+        <div class="ring-wrap">
+          <svg class="ring" viewBox="0 0 220 220"><circle class="ring-bg" cx="110" cy="110" r="100"/><circle id="ring-fg" class="ring-fg" cx="110" cy="110" r="100"/></svg>
+          <div class="ring-center">
+            <div id="timer-display" role="timer" aria-live="off">25:00</div>
+            <div id="timer-task" class="timer-task">Pick a task below, then start</div>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button id="reset-btn" class="btn ghost">Reset</button>
+          <button id="start-btn" class="btn primary big">▶ Start</button>
+          <button id="skip-btn" class="btn ghost">Skip</button>
+        </div>
+        <p id="cycle-note" class="muted small"></p>
+      </div>
+
+      <form id="task-form" class="task-form">
+        <h2>Add a task</h2>
+        <input id="task-title" type="text" placeholder="What will you focus on?" maxlength="140" required>
+        <div class="form-row">
+          <input id="task-tag" type="text" placeholder="Tag (e.g. Work, Study)" list="tag-list" maxlength="32">
+          <datalist id="tag-list"></datalist>
+          <label class="estimate">🍅 × <input id="task-estimate" type="number" min="1" max="24" value="2"></label>
+        </div>
+        <button class="btn primary" type="submit">+ Add task</button>
+      </form>
+
+      <div class="tasks-head">
+        <h2>Your tasks</h2>
+        <div id="tag-filters" class="chips"></div>
+      </div>
+      <ul id="task-list" class="task-list"></ul>
+      <p id="tasks-empty" class="empty hidden">No tasks yet. Add your first one above 🌱</p>
+    </section>
+
+    <!-- PROGRESS -->
+    <section id="page-progress" class="page hidden">
+      <h2>Your progress</h2>
+      <div id="progress-summary" class="stats-row"></div>
+      <h3>Last 7 days</h3>
+      <div id="week-chart" class="chart"></div>
+      <h3>By tag</h3>
+      <div id="tag-breakdown"></div>
+      <h3>Task completion</h3>
+      <div id="task-progress"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="page-settings" class="page hidden">
+      <h2>Settings</h2>
+      <div class="card">
+        <h3>Your data</h3>
+        <p>FocusFlow is <b>completely free</b> — every feature, forever. No account, no sign-in.</p>
+        <p class="muted">Your tasks, progress, and settings are stored only in this browser (local storage). They stay on this device and are never sent anywhere. Clearing your browser data will erase them.</p>
+        <button id="clear-data-btn" class="btn ghost" type="button">Delete all local data</button>
+      </div>
+      <form id="settings-form" class="card">
+        <h3>Timer</h3>
+        <label>Focus (minutes)<input type="number" id="s-focus" min="1" max="120"></label>
+        <label>Short break (minutes)<input type="number" id="s-short" min="1" max="60"></label>
+        <label>Long break (minutes)<input type="number" id="s-long" min="1" max="90"></label>
+        <label>Long break after (pomodoros)<input type="number" id="s-every" min="2" max="12"></label>
+        <label>Daily goal (pomodoros)<input type="number" id="s-goal" min="1" max="24"></label>
+        <label class="check"><input type="checkbox" id="s-autobreak"> Auto-start breaks</label>
+        <label class="check"><input type="checkbox" id="s-autofocus"> Auto-start next focus</label>
+        <label class="check"><input type="checkbox" id="s-sound"> Sound when timer finishes</label>
+        <button class="btn primary" type="submit">Save settings</button>
+      </form>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button data-nav="today" class="active">🍅<span>Today</span></button>
+    <button data-nav="progress">📈<span>Progress</span></button>
+    <button data-nav="settings">⚙️<span>Settings</span></button>
+  </nav>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>
